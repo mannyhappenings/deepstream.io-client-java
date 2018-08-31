@@ -388,6 +388,15 @@ class Connection implements IConnection {
         return endpoint;
     }
 
+    public void reCreateEndPoint() throws URISyntaxException {
+        if (null != this.endpoint) {
+            this.endpoint.forceClose();
+            // Setting null for reassurance. Will remove later.
+            this.endpoint = null;
+        }
+        this.endpoint = this.createEndpoint();
+    }
+
     private void tryReconnect() {
         if( this.reconnectTimeout != null ) {
             return;

@@ -6,6 +6,7 @@ import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLSocketFactory;
 import java.io.IOException;
 import java.net.URI;
@@ -89,6 +90,12 @@ class JavaEndpointWebsocket implements Endpoint {
         @Override
         public void onError(Exception ex) {
             if (ex instanceof NullPointerException && ex.getMessage().equals("ssl == null")) {
+                return;
+            }
+            /*
+             * SSL Exception Thrown by android on read error. Temporary fix.
+             */
+            if (ex instanceof SSLException && null != ex.getMessage() && ex.getMessage().equals("I/O error during system call, Software caused connection abort")) {
                 return;
             }
             connection.onError( ex.getMessage() );

@@ -194,6 +194,18 @@ public class DeepstreamClient extends DeepstreamClientAbstract {
     }
 
     /**
+     * Reinitialises the websocket connection
+     */
+    public void reInitialiseConnection() throws URISyntaxException, DeepstreamException {
+        if (null != connection) {
+            connection.reCreateEndPoint();
+        }
+        else {
+            throw new DeepstreamException("Error while  reinitialising connection");
+        }
+    }
+
+    /**
      * Send authentication parameters to the client to fully open
      * the connection.
      *
