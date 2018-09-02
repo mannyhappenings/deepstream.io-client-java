@@ -206,6 +206,20 @@ public class DeepstreamClient extends DeepstreamClientAbstract {
     }
 
     /**
+     * ReSubscribe events on current end-point. This method is to be used with {@link DeepstreamClient#reInitialiseConnection()}.
+     * New end-point is not subscribed to old events and hence misses all events.
+     * TODO: This is wrong way to do. Ideally it should re-subscribe events once connection becomes open again.
+     */
+    public void reSubsribeEvents() throws URISyntaxException, DeepstreamException {
+        if (null != connection && null != event) {
+            event.resubscribe();
+        }
+        else {
+            throw new DeepstreamException("Connection not available.");
+        }
+    }
+
+    /**
      * Send authentication parameters to the client to fully open
      * the connection.
      *

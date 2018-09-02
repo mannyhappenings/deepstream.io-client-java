@@ -27,4 +27,5 @@ interface Endpoint {
      * Forces the connection to be closed
      */
     void forceClose();
+
 }

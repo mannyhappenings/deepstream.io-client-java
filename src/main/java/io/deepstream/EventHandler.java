@@ -58,6 +58,24 @@ public class EventHandler {
     }
 
     /**
+     * ReSubscribes all events on new endpoint after update new end point
+     */
+    @ObjectiveCName("subscribe:eventListener:")
+    public void resubscribe() {
+        System.out.println("Resubscribing" + subscriptions);
+        if (null != this.subscriptions) {
+            for(String eventName: subscriptions) {
+                System.out.println("Listeners for event=" + eventName + " :: " + emitter.listeners(eventName));
+                if (!emitter.hasListeners(eventName)) {
+
+                    this.connection.send(MessageBuilder.getMsg(Topic.EVENT, Actions.SUBSCRIBE, eventName));
+                }
+            }
+        }
+
+    }
+
+    /**
      * Removes the listener added via {@link EventHandler}
      *
      * @param eventName     The event name
